@@ -1,0 +1,30 @@
+# Python 컴파일 파일
+__pycache__/
+*.py[cod]
+*$py.class
+
+# 가상 환경 (Virtual Environment)
+venv/
+.venv/
+env/
+ENV/
+
+# 환경 변수 및 설정 (보안상 공유 금지)
+.env
+.env.local
+.env.*.local
+
+# 개인적인 메모 파일
+memo.txt
+
+# IDE 설정 (VS Code, PyCharm 등)
+.vscode/
+.idea/
+
+# 로그 및 데이터베이스
+*.log
+*.sqlite3
+
+# 운영체제 생성 파일
+.DS_Store
+Thumbs.db

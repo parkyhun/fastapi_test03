@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>templates/post/list.html</title>
+</head>
+<body>
+    <div class="container">
+        <a href="/post/new">새글 작성</a>
+        <h3>글 목록 입니다</h3>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>번호</th>
+                    <th>작성자</th>
+                    <th>제목</th>
+                    <th>내용</th>
+                    <th>작성일</th>
+                </tr>
+            </thead>
+            <tbody>
+                {# posts 리스트에 있는 각 항목을 post 변수로 반복 처리합니다 #}
+                {% for post in posts %}
+                <tr>
+                    {# post 객체의 각 속성값을 테이블 셀에 출력합니다 #}
+                    <td>{{ post.num }}</td>
+                    <td>{{ post.writer }}</td>
+                    <td>{{ post.title }}</td>
+                    <td>{{ post.content }}</td>
+                    <td>{{ post.created_at }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
