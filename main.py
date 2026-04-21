@@ -73,3 +73,45 @@ def postNew(writer: str = Form(...), title: str = Form(...), content: str = Form
 
     # 특정 경로로 요청을 다시 하도록 리다일렉트 응답을 준다.
     return RedirectResponse("/post", status_code=302)
+
+
+@app.post("/post/delete")
+def postDelete(num: int = Form(...), db: Session = Depends(get_db)):
+    # DB에서 해당 번호의 글을 삭제하는 SQL
+    query = text("DELETE FROM post WHERE num = :num")
+    db.execute(query, {"num": num})
+    db.commit()
+
+        # 삭제 후 목록 페이지로 이동 (303 Redirect)
+    return RedirectResponse("/post", status_code=303)
+
+
+@app.get("/post/edit/{num}", response_class=HTMLResponse)
+def postEditForm(num: int, request: Request, db: Session = Depends(get_db)):
+    # DB에서 수정할 글 정보 가져오기
+    query = text("SELECT num, writer, title, content FROM post WHERE num = :num")
+    result = db.execute(query, {"num": num})
+    post = result.fetchone()
+
+    return templates.TemplateResponse(
+        request=request,
+        name="post/edit-form.html",
+        context={"post": post}
+    )
+
+
+@app.post("/post/update")
+def postUpdate(num: int = Form(...), writer: str = Form(...), title: str = Form(...),
+               content: str = Form(...), db: Session = Depends(get_db)):
+    # DB 업데이트 SQL
+    query = text("""
+        UPDATE post
+        SET writer = :writer, title = :title, content = :content
+        WHERE num = :num
+    """)
+    db.execute(query, {"num": num, "writer": writer, "title": title, "content": content})
+    db.commit()
+
+    return RedirectResponse("/post", status_code=303)
+
+
