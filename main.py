@@ -70,9 +70,13 @@ def postNew(writer: str = Form(...), title: str = Form(...), content: str = Form
     db.execute(query, {"writer":writer, "title":title, "content":content})
     db.commit()
 
-
-    # 특정 경로로 요청을 다시 하도록 리다일렉트 응답을 준다.
-    return RedirectResponse("/post", status_code=302)
+    content = """
+        <script>
+            alert("추가되었습니다.");
+            location.href = "/post";
+        </script>
+        """
+    return HTMLResponse(content=content)
 
 
 @app.post("/post/delete")
